@@ -8,23 +8,25 @@ import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 public class TestCreateUser {
 
     @Before
     public void setUp(){
-        CreateUser createUser = new CreateUser("test@test.test", "Qwerty", "test");
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
-        Response userId =
-                given().header("Content-type", "application/json").and().body(createUser).when().post("/api/auth/register");
     }
 
     @Test
     public void createUserTest(){
-        CreateUser createUser = new CreateUser("ololo@lol.lol", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@lolo.lolo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
-        createUserResponse.assertThat().statusCode(200);
+        String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
+        assertThat(accessToken, notNullValue());
+        ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
+        deleteUserResponse.assertThat().statusCode(202);
     }
 
     @Test

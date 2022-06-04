@@ -1,7 +1,6 @@
 package api;
 
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.RestAssured.given;
@@ -32,6 +31,17 @@ public class UserApi {
                 .header("Content-type", "application/json")
                 .header("Authorization", accessToken)
                 .delete("api/auth/user/")
+                .then();
+    }
+
+    @Step("Update date user")
+    public static ValidatableResponse updateDataUser(Object body, String accessToken){
+        return given()
+                .header("Content-type", "application/json")
+                .header("Authorization", accessToken)
+                .and().body(body)
+                .when()
+                .patch("/api/auth/user/")
                 .then();
     }
 }
