@@ -27,11 +27,11 @@ public class UserApi {
     }
 
     @Step("Delete user")
-    public static ValidatableResponse deleteUser(String token){
+    public static ValidatableResponse deleteUser(String accessToken){
         return given()
                 .header("Content-type", "application/json")
-                .and().body(token)
-                .when().delete("api/auth/user/")
+                .header("Authorization", accessToken)
+                .delete("api/auth/user/")
                 .then();
     }
 }
