@@ -20,12 +20,12 @@ public class ChangeDataUser {
 
     @Test
     public void updateDataUserEmailTest(){
-        CreateUser createUser = new CreateUser("olololo@ololo.lolo", "12345", "Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345", "Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
 
-        LoginUser loginUser = new LoginUser("olololo@ololo.lolo", "12345");
+        LoginUser loginUser = new LoginUser("ololo@ololo.lololo", "12345");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         assertThat(accessToken, notNullValue());
@@ -40,17 +40,17 @@ public class ChangeDataUser {
 
     @Test
     public void updateDataUserPasswordTest(){
-        CreateUser createUser = new CreateUser("olololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
 
-        LoginUser loginUser = new LoginUser("olololo@ololo.lolo","12345");
+        LoginUser loginUser = new LoginUser("ololo@ololo.lololo","12345");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         assertThat(accessToken, notNullValue());
 
-        DataUserUpdate dataUserUpdate = new DataUserUpdate("olololo@ololo.lolo", "Qwerty", "Tuta");
+        DataUserUpdate dataUserUpdate = new DataUserUpdate("ololo@ololo.lololo", "Qwerty", "Tuta");
         ValidatableResponse updateDataUser = UserApi.updateDataUser(dataUserUpdate, accessToken);
         updateDataUser.assertThat().statusCode(200);
 
@@ -60,17 +60,17 @@ public class ChangeDataUser {
 
     @Test
     public void updateDataUserNameTest(){
-        CreateUser createUser = new CreateUser("olololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
 
-        LoginUser loginUser = new LoginUser("olololo@ololo.lolo","12345");
+        LoginUser loginUser = new LoginUser("ololo@ololo.lololo","12345");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         assertThat(accessToken, notNullValue());
 
-        DataUserUpdate dataUserUpdate = new DataUserUpdate("olololo@ololo.lolo", "12345", "Test Testovich");
+        DataUserUpdate dataUserUpdate = new DataUserUpdate("ololo@ololo.lololo", "12345", "Test Testovich");
         ValidatableResponse updateDataUser = UserApi.updateDataUser(dataUserUpdate, accessToken);
         updateDataUser.assertThat().statusCode(200);
 
@@ -81,7 +81,7 @@ public class ChangeDataUser {
     @Test
     public void updateDataUnauthorizedUserTest(){
         String expected = "You should be authorised";
-        CreateUser createUser = new CreateUser("olololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");

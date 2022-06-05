@@ -20,11 +20,11 @@ public class TestLoginUser {
 
     @Test
     public void loginUserTest(){
-        CreateUser createUser = new CreateUser("ololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
-        LoginUser loginUser = new LoginUser("ololo@ololo.lolo","12345");
+        LoginUser loginUser = new LoginUser("ololo@ololo.lololo","12345");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         assertThat(accessToken, notNullValue());
@@ -36,7 +36,7 @@ public class TestLoginUser {
     @Test
     public void loginUserWrongEmail(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
@@ -51,12 +51,12 @@ public class TestLoginUser {
     @Test
     public void loginUserWrongPassword(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-        LoginUser loginUser = new LoginUser("ololo@ololo.lolo","1234567");
+        LoginUser loginUser = new LoginUser("ololo@ololo.lololo","1234567");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         loginUserResponse.assertThat().statusCode(401).and().body("message", equalTo(expected));
         ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
@@ -66,7 +66,7 @@ public class TestLoginUser {
     @Test
     public void loginUserWrongPasswordAndEmail(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
@@ -81,12 +81,12 @@ public class TestLoginUser {
     @Test
     public void loginUserEmptyPassword(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-        LoginUser loginUser = new LoginUser("ololo@ololo.lolo","");
+        LoginUser loginUser = new LoginUser("ololo@ololo.lololo","");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         loginUserResponse.assertThat().statusCode(401).and().body("message", equalTo(expected));
         ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
@@ -96,7 +96,7 @@ public class TestLoginUser {
     @Test
     public void loginUserEmptyEmail(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
@@ -111,7 +111,7 @@ public class TestLoginUser {
     @Test
     public void loginUserEmptyEmailAndPassword(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);

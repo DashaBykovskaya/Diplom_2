@@ -1,5 +1,6 @@
 import api.OrderApi;
 import api.UserApi;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 import model.CreateUser;
@@ -22,15 +23,16 @@ public class GetOrders {
     }
 
     @Test
+    @DisplayName("Получение заказа авторизованным пользователем")
     public void getOrdersAuthorizedUserTest() {
         List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6e");
 
-        CreateUser createUser = new CreateUser("olololo@ololo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
 
-        LoginUser loginUser = new LoginUser("olololo@ololo.lolo","12345");
+        LoginUser loginUser = new LoginUser("ololo@ololo.lololo","12345");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         assertThat(accessToken, notNullValue());

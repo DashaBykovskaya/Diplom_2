@@ -20,7 +20,7 @@ public class TestCreateUser {
 
     @Test
     public void createUserTest(){
-        CreateUser createUser = new CreateUser("ololo@lolo.lolo", "12345","Tuta");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
@@ -31,10 +31,10 @@ public class TestCreateUser {
 
     @Test
     public void createUserSimpleEmailTest(){
+        String expected = "User already exists";
         CreateUser createUser = new CreateUser("test@test.test", "Qwerty", "test");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
-        String expected = "User already exists";
         createUserResponse.assertThat().statusCode(403).and().body("message", equalTo(expected));
     }
 
@@ -49,7 +49,7 @@ public class TestCreateUser {
 
     @Test
     public void createUserWithOutPassword(){
-        CreateUser createUser = new CreateUser("test@test.test", "", "test");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "", "test");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         String expected = "Email, password and name are required fields";
@@ -58,7 +58,7 @@ public class TestCreateUser {
 
     @Test
     public void createUserWithOutName(){
-        CreateUser createUser = new CreateUser("test@test.test", "Qwerty", "");
+        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "Qwerty", "");
         UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         String expected = "Email, password and name are required fields";
