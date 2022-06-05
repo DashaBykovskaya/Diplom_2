@@ -1,4 +1,5 @@
 import api.UserApi;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -19,6 +20,7 @@ public class TestLoginUser {
     }
 
     @Test
+    @DisplayName("Login")
     public void loginUserTest(){
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
@@ -34,6 +36,7 @@ public class TestLoginUser {
     }
 
     @Test
+    @DisplayName("Login with out email")
     public void loginUserWrongEmail(){
         String expected = "email or password are incorrect";
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
@@ -49,6 +52,7 @@ public class TestLoginUser {
     }
 
     @Test
+    @DisplayName("Login with out password")
     public void loginUserWrongPassword(){
         String expected = "email or password are incorrect";
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
@@ -64,6 +68,7 @@ public class TestLoginUser {
     }
 
     @Test
+    @DisplayName("Login with invalid data: email and password")
     public void loginUserWrongPasswordAndEmail(){
         String expected = "email or password are incorrect";
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
@@ -79,6 +84,7 @@ public class TestLoginUser {
     }
 
     @Test
+    @DisplayName("Login with empty password")
     public void loginUserEmptyPassword(){
         String expected = "email or password are incorrect";
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
@@ -94,6 +100,7 @@ public class TestLoginUser {
     }
 
     @Test
+    @DisplayName("Login with empty email")
     public void loginUserEmptyEmail(){
         String expected = "email or password are incorrect";
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
@@ -109,6 +116,7 @@ public class TestLoginUser {
     }
 
     @Test
+    @DisplayName("Login with empty email and password")
     public void loginUserEmptyEmailAndPassword(){
         String expected = "email or password are incorrect";
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");

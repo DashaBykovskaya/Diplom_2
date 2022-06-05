@@ -1,8 +1,10 @@
 import api.OrderApi;
 import api.UserApi;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import jdk.jfr.Description;
 import model.CreateUser;
 import model.Ingredients;
 import model.LoginUser;
@@ -23,6 +25,7 @@ public class CreateOrderTest {
     }
 
     @Test
+    @DisplayName("Creation of an order by an authorized user")
     public void createOrderAuthorizedUserTest(){
         List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6e");
 
@@ -46,6 +49,7 @@ public class CreateOrderTest {
     }
 
     @Test
+    @DisplayName("Creation of an order by an authorized user with invalid ingredient values")
     public void createOrderAuthorizedUserInvalidIngredientsTest(){
         List<String> ingredientsList = List.of("123", "456");
 
@@ -69,6 +73,7 @@ public class CreateOrderTest {
     }
 
     @Test
+    @DisplayName("Creation of an order by an authorized user without ingredients")
     public void createOrderAuthorizedUserWithOutIngredientsTest(){
         List<String> ingredientsList = List.of();
         String expected = "Ingredient ids must be provided";
@@ -93,6 +98,7 @@ public class CreateOrderTest {
     }
 
     @Test
+    @DisplayName("Creation of an order by an unauthorized user")
     public void createOrderUnauthorizedUserTest(){
         List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa71");
         //String expected = "You should be authorised";

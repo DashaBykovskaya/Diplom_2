@@ -1,4 +1,5 @@
 import api.UserApi;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 import model.CreateUser;
@@ -11,7 +12,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 
-public class ChangeDataUser {
+public class ChangeDataUserTest {
 
     @Before
     public void setUp(){
@@ -19,6 +20,7 @@ public class ChangeDataUser {
     }
 
     @Test
+    @DisplayName("Editing a user's email")
     public void updateDataUserEmailTest(){
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345", "Tuta");
         UserApi userApi = new UserApi();
@@ -39,6 +41,7 @@ public class ChangeDataUser {
     }
 
     @Test
+    @DisplayName("Editing a user's password")
     public void updateDataUserPasswordTest(){
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
@@ -59,6 +62,7 @@ public class ChangeDataUser {
     }
 
     @Test
+    @DisplayName("Editing a user's name")
     public void updateDataUserNameTest(){
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
@@ -79,6 +83,7 @@ public class ChangeDataUser {
     }
 
     @Test
+    @DisplayName("Editing the data of an unauthorized user")
     public void updateDataUnauthorizedUserTest(){
         String expected = "You should be authorised";
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");

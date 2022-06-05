@@ -1,4 +1,5 @@
 import api.UserApi;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -19,6 +20,7 @@ public class TestCreateUser {
     }
 
     @Test
+    @DisplayName("User creation")
     public void createUserTest(){
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
         UserApi userApi = new UserApi();
@@ -30,6 +32,7 @@ public class TestCreateUser {
     }
 
     @Test
+    @DisplayName("Creating a user that already exists")
     public void createUserSimpleEmailTest(){
         String expected = "User already exists";
         CreateUser createUser = new CreateUser("test@test.test", "Qwerty", "test");
@@ -39,6 +42,7 @@ public class TestCreateUser {
     }
 
     @Test
+    @DisplayName("User creation with out email")
     public void createUserWithOutEmail(){
         CreateUser createUser = new CreateUser("", "Qwerty", "test");
         UserApi userApi = new UserApi();
@@ -48,6 +52,7 @@ public class TestCreateUser {
     }
 
     @Test
+    @DisplayName("User creation with out password")
     public void createUserWithOutPassword(){
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "", "test");
         UserApi userApi = new UserApi();
@@ -57,6 +62,7 @@ public class TestCreateUser {
     }
 
     @Test
+    @DisplayName("User creation with out name")
     public void createUserWithOutName(){
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "Qwerty", "");
         UserApi userApi = new UserApi();

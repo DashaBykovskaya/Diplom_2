@@ -15,7 +15,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 
-public class GetOrders {
+public class GetOrdersTest {
 
     @Before
     public void setUp(){
@@ -23,7 +23,7 @@ public class GetOrders {
     }
 
     @Test
-    @DisplayName("Получение заказа авторизованным пользователем")
+    @DisplayName("Receiving an order by an authorized user")
     public void getOrdersAuthorizedUserTest() {
         List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6e");
 
@@ -50,6 +50,7 @@ public class GetOrders {
     }
 
     @Test
+    @DisplayName("Receiving an order by an unauthorized user")
     public void getOrdersUnauthorizedUserTest() {
         List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6e");
         String expected = "You should be authorised";
