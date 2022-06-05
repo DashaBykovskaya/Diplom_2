@@ -38,7 +38,7 @@ public class CreateOrderTest {
 
         Ingredients ingredients = new Ingredients(ingredientsList);
         OrderApi orderApi = new OrderApi();
-        ValidatableResponse createOrderResponse = OrderApi.postCreateOrder(ingredients, accessToken);
+        ValidatableResponse createOrderResponse = orderApi.postCreateOrder(ingredients, accessToken);
         createOrderResponse.assertThat().statusCode(200);
 
         ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
@@ -61,7 +61,7 @@ public class CreateOrderTest {
 
         Ingredients ingredients = new Ingredients(ingredientsList);
         OrderApi orderApi = new OrderApi();
-        ValidatableResponse createOrderResponse = OrderApi.postCreateOrder(ingredients, accessToken);
+        ValidatableResponse createOrderResponse = orderApi.postCreateOrder(ingredients, accessToken);
         createOrderResponse.assertThat().statusCode(500);
 
         ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
@@ -85,7 +85,7 @@ public class CreateOrderTest {
 
         Ingredients ingredients = new Ingredients(ingredientsList);
         OrderApi orderApi = new OrderApi();
-        ValidatableResponse createOrderResponse = OrderApi.postCreateOrder(ingredients, accessToken);
+        ValidatableResponse createOrderResponse = orderApi.postCreateOrder(ingredients, accessToken);
         createOrderResponse.assertThat().statusCode(400).body("message", equalTo(expected));
 
         ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
@@ -97,18 +97,10 @@ public class CreateOrderTest {
         List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa71");
         String expected = "You should be authorised";
 
-        CreateUser createUser = new CreateUser("olololo@ololo.lololo", "12345","Tuta");
-        UserApi userApi = new UserApi();
-        ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
-        String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-
         Ingredients ingredients = new Ingredients(ingredientsList);
         OrderApi orderApi = new OrderApi();
-        ValidatableResponse createOrderResponse = OrderApi.postCreateOrder(ingredients, "");
-        createOrderResponse.assertThat().statusCode(200);
-
-        ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
-        deleteUserResponse.assertThat().statusCode(202);
+        ValidatableResponse createOrderResponse = orderApi.postCreateOrder(ingredients, "");
+        createOrderResponse.assertThat().statusCode(401).body("message", equalTo(expected));
     }
 
 

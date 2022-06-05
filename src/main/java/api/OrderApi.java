@@ -9,15 +9,6 @@ import static io.restassured.RestAssured.given;
 
 public class OrderApi {
 
-    @Step("Get ingredients id")
-    public ValidatableResponse getIngredientsId(){
-        return given()
-                .header("Content-type", "application/json")
-                .when()
-                .get("/api/ingredients/")
-                .then();
-    }
-
     @Step("Create order")
     public static ValidatableResponse postCreateOrder(Ingredients ingredients, String accessToken){
         return  given()
@@ -27,6 +18,16 @@ public class OrderApi {
                 .body(ingredients)
                 .when()
                 .post("/api/orders")
+                .then();
+    }
+
+    @Step("Get orders")
+    public static ValidatableResponse getOrders(String accessToken) {
+        return  given()
+                .header("Content-type", "application/json")
+                .header("Authorization", accessToken)
+                .when()
+                .get("/api/orders/")
                 .then();
     }
 }
