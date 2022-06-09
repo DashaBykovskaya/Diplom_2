@@ -14,6 +14,9 @@ import static org.hamcrest.core.IsNull.notNullValue;
 
 public class TestCreateUser {
 
+    String email = "tesov@test.com";
+    String password = "12345";
+    String name = "Tuta";
     @Before
     public void setUp(){
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
@@ -22,8 +25,7 @@ public class TestCreateUser {
     @Test
     @DisplayName("User creation")
     public void createUserTest(){
-        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
-        UserApi userApi = new UserApi();
+        CreateUser createUser = new CreateUser(email, password,name);
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         assertThat(accessToken, notNullValue());
@@ -36,7 +38,6 @@ public class TestCreateUser {
     public void createUserSimpleEmailTest(){
         String expected = "User already exists";
         CreateUser createUser = new CreateUser("test@test.test", "Qwerty", "test");
-        UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(403).and().body("message", equalTo(expected));
     }
@@ -45,7 +46,6 @@ public class TestCreateUser {
     @DisplayName("User creation with out email")
     public void createUserWithOutEmail(){
         CreateUser createUser = new CreateUser("", "Qwerty", "test");
-        UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         String expected = "Email, password and name are required fields";
         createUserResponse.assertThat().statusCode(403).and().body("message", equalTo(expected));
@@ -55,7 +55,6 @@ public class TestCreateUser {
     @DisplayName("User creation with out password")
     public void createUserWithOutPassword(){
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "", "test");
-        UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         String expected = "Email, password and name are required fields";
         createUserResponse.assertThat().statusCode(403).and().body("message", equalTo(expected));
@@ -65,7 +64,6 @@ public class TestCreateUser {
     @DisplayName("User creation with out name")
     public void createUserWithOutName(){
         CreateUser createUser = new CreateUser("ololo@ololo.lololo", "Qwerty", "");
-        UserApi userApi = new UserApi();
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         String expected = "Email, password and name are required fields";
         createUserResponse.assertThat().statusCode(403).and().body("message", equalTo(expected));

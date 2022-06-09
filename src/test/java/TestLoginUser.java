@@ -14,6 +14,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 public class TestLoginUser {
+    String email = "lo@olol.lolol";
+    String password = "12345";
+    String name = "Tuta";
     @Before
     public void setUp(){
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
@@ -22,27 +25,23 @@ public class TestLoginUser {
     @Test
     @DisplayName("Login")
     public void loginUserTest(){
-        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
-        UserApi userApi = new UserApi();
+        CreateUser createUser = new CreateUser(email, password,name);
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
-        LoginUser loginUser = new LoginUser("ololo@ololo.lololo","12345");
+        LoginUser loginUser = new LoginUser(email,password);
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         assertThat(accessToken, notNullValue());
         ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
         deleteUserResponse.assertThat().statusCode(202);
-
     }
 
     @Test
     @DisplayName("Login with out email")
     public void loginUserWrongEmail(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
-        UserApi userApi = new UserApi();
+        CreateUser createUser = new CreateUser(email, password,name);
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
-        createUserResponse.assertThat().statusCode(200);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         LoginUser loginUser = new LoginUser("111","12345");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
@@ -55,12 +54,11 @@ public class TestLoginUser {
     @DisplayName("Login with out password")
     public void loginUserWrongPassword(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
-        UserApi userApi = new UserApi();
+        CreateUser createUser = new CreateUser(email, password,name);
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-        LoginUser loginUser = new LoginUser("ololo@ololo.lololo","1234567");
+        LoginUser loginUser = new LoginUser(email,"1234567");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         loginUserResponse.assertThat().statusCode(401).and().body("message", equalTo(expected));
         ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
@@ -71,8 +69,7 @@ public class TestLoginUser {
     @DisplayName("Login with invalid data: email and password")
     public void loginUserWrongPasswordAndEmail(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
-        UserApi userApi = new UserApi();
+        CreateUser createUser = new CreateUser(email, password,name);
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
@@ -87,12 +84,11 @@ public class TestLoginUser {
     @DisplayName("Login with empty password")
     public void loginUserEmptyPassword(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
-        UserApi userApi = new UserApi();
+        CreateUser createUser = new CreateUser(email, password,name);
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-        LoginUser loginUser = new LoginUser("ololo@ololo.lololo","");
+        LoginUser loginUser = new LoginUser(email,"");
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
         loginUserResponse.assertThat().statusCode(401).and().body("message", equalTo(expected));
         ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
@@ -103,8 +99,7 @@ public class TestLoginUser {
     @DisplayName("Login with empty email")
     public void loginUserEmptyEmail(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
-        UserApi userApi = new UserApi();
+        CreateUser createUser = new CreateUser(email, password,name);
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
@@ -119,8 +114,7 @@ public class TestLoginUser {
     @DisplayName("Login with empty email and password")
     public void loginUserEmptyEmailAndPassword(){
         String expected = "email or password are incorrect";
-        CreateUser createUser = new CreateUser("ololo@ololo.lololo", "12345","Tuta");
-        UserApi userApi = new UserApi();
+        CreateUser createUser = new CreateUser(email, password,name);
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
         createUserResponse.assertThat().statusCode(200);
         String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
