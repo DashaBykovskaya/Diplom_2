@@ -10,14 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsNull.notNullValue;
 
 public class ChangeDataUserTest {
 
-    String email = "test_test@olol.ru";
+    String email = "Smelov@lol.ru";
     String password = "12345";
     String name = "Tuta";
+    String accessToken;
+
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
@@ -26,18 +26,22 @@ public class ChangeDataUserTest {
         createUserResponse.assertThat().statusCode(200);
     }
 
+    @After
+    public void cleanUp() {
+        if(accessToken != null) {
+            UserApi.deleteUser(accessToken);
+        }
+    }
+
     @Test
     @DisplayName("Editing a user's email")
     public void updateDataUserEmailTest() {
         LoginUser loginUser = new LoginUser(email, password);
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
-        String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-        assertThat(accessToken, notNullValue());
-        DataUserUpdate dataUserUpdate = new DataUserUpdate("olol@ololo.com", password, name);
+        accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
+        DataUserUpdate dataUserUpdate = new DataUserUpdate("Smelov@lol.com", password, name);
         ValidatableResponse updateDataUser = UserApi.updateDataUser(dataUserUpdate, accessToken);
         updateDataUser.assertThat().statusCode(200);
-        ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
-        deleteUserResponse.assertThat().statusCode(202);
     }
 
     @Test
@@ -45,13 +49,10 @@ public class ChangeDataUserTest {
     public void updateDataUserPasswordTest() {
         LoginUser loginUser = new LoginUser(email, password);
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
-        String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-        assertThat(accessToken, notNullValue());
+        accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         DataUserUpdate dataUserUpdate = new DataUserUpdate(email, "Qwerty", name);
         ValidatableResponse updateDataUser = UserApi.updateDataUser(dataUserUpdate, accessToken);
         updateDataUser.assertThat().statusCode(200);
-        ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
-        deleteUserResponse.assertThat().statusCode(202);
     }
 
     @Test
@@ -59,12 +60,18 @@ public class ChangeDataUserTest {
     public void updateDataUserNameTest() {
         LoginUser loginUser = new LoginUser(email, password);
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
-        String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-        assertThat(accessToken, notNullValue());
+        accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
         DataUserUpdate dataUserUpdate = new DataUserUpdate(email, password, "Test Testovich");
         ValidatableResponse updateDataUser = UserApi.updateDataUser(dataUserUpdate, accessToken);
         updateDataUser.assertThat().statusCode(200);
-        ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
-        deleteUserResponse.assertThat().statusCode(202);
+    }
+
+    @Test
+    @DisplayName("Editing the data of an unauthorized user")
+    public void updateDataUnauthorizedUserTest() {
+        String expected = "You should be authorised";
+        DataUserUpdate dataUserUpdate = new DataUserUpdate("o@o.oo", "password", "name");
+        ValidatableResponse updateDataUser = UserApi.updateDataUser(dataUserUpdate, "");
+        updateDataUser.assertThat().statusCode(401).body("message", equalTo(expected));
     }
 }

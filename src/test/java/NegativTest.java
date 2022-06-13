@@ -23,31 +23,6 @@ public class NegativTest {
     }
 
     @Test
-    @DisplayName("Editing the data of an unauthorized user")
-    public void updateDataUnauthorizedUserTest() {
-        String expected = "You should be authorised";
-        CreateUser createUser = new CreateUser("o@o.o", "password", "name");
-        ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
-        String accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-        DataUserUpdate dataUserUpdate = new DataUserUpdate("o@o.oo", "password", "name");
-        ValidatableResponse updateDataUser = UserApi.updateDataUser(dataUserUpdate, "");
-        updateDataUser.assertThat().statusCode(401).body("message", equalTo(expected));
-        ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
-        deleteUserResponse.assertThat().statusCode(202);
-    }
-
-    @Test
-    @DisplayName("Creation of an order by an unauthorized user")
-    public void createOrderUnauthorizedUserTest(){
-        List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa71");
-        //String expected = "You should be authorised";
-        Ingredients ingredients = new Ingredients(ingredientsList);
-        OrderApi orderApi = new OrderApi();
-        ValidatableResponse createOrderResponse = orderApi.postCreateOrder(ingredients, "");
-        createOrderResponse.assertThat().statusCode(200);
-    }
-
-    @Test
     @DisplayName("Receiving an order by an unauthorized user")
     public void getOrdersUnauthorizedUserTest() {
         List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6e");

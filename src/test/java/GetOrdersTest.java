@@ -11,13 +11,12 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 public class GetOrdersTest {
     List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6e");
-    String email = "b@b.bb";
+    String email = "Smelov@lol.ru";
     String password = "12345";
     String name = "Tuta";
 
