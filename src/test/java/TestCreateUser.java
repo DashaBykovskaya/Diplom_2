@@ -13,7 +13,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 
 public class TestCreateUser {
 
-    String email = "Smelov@lol.ru";
+    String email = "Email@lol.ru";
     String password = "12345";
     String name = "Tuta";
     String accessToken;

@@ -16,7 +16,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 public class GetOrdersTest {
     List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6e");
-    String email = "Smelova@lol.ru";
+    String email = "Smelova@lol.by";
     String password = "12345";
     String name = "Tuta";
     String accessToken;
