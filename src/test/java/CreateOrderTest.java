@@ -12,9 +12,11 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+
 public class CreateOrderTest {
 
-    String email = "Smelov@lol.com";
+    String email = "Smelova@lol.com";
     String password = "12345";
     String name = "Tuta";
     String accessToken;
@@ -62,5 +64,18 @@ public class CreateOrderTest {
         Ingredients ingredients = new Ingredients(ingredientsList);
         ValidatableResponse createOrderResponse = OrderApi.postCreateOrder(ingredients, "");
         createOrderResponse.assertThat().statusCode(200);
+    }
+
+    @Test
+    @DisplayName("Creation of an order by an authorized user without ingredients")
+    public void createOrderAuthorizedUserWithOutIngredientsTest(){
+        List<String> ingredientsList = List.of();
+        String expected = "Ingredient ids must be provided";
+        LoginUser loginUser = new LoginUser(email,password);
+        ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
+        loginUserResponse.assertThat().statusCode(200);
+        Ingredients ingredients = new Ingredients(ingredientsList);
+        ValidatableResponse createOrderResponse = OrderApi.postCreateOrder(ingredients, accessToken);
+        createOrderResponse.assertThat().statusCode(400).body("message", equalTo(expected));
     }
 }

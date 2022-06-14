@@ -6,26 +6,32 @@ import io.restassured.response.ValidatableResponse;
 import model.CreateUser;
 import model.Ingredients;
 import model.LoginUser;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class GetOrdersTest {
     List<String> ingredientsList = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6e");
-    String email = "Smelov@lol.ru";
+    String email = "Smelova@lol.ru";
     String password = "12345";
     String name = "Tuta";
+    String accessToken;
 
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
         CreateUser createUser = new CreateUser(email, password, name);
         ValidatableResponse createUserResponse = UserApi.postCreateUser(createUser);
-        createUserResponse.assertThat().statusCode(200);
+        accessToken = createUserResponse.assertThat().statusCode(200).extract().path("accessToken");
+    }
+
+    @After
+    public void cleanUp() {
+        UserApi.deleteUser(accessToken);
     }
 
     @Test
@@ -33,14 +39,22 @@ public class GetOrdersTest {
     public void getOrdersAuthorizedUserTest() {
         LoginUser loginUser = new LoginUser(email, password);
         ValidatableResponse loginUserResponse = UserApi.postLoginUser(loginUser);
-        String accessToken = loginUserResponse.assertThat().statusCode(200).extract().path("accessToken");
-        assertThat(accessToken, notNullValue());
+        loginUserResponse.assertThat().statusCode(200);
         Ingredients ingredients = new Ingredients(ingredientsList);
         ValidatableResponse createOrderResponse = OrderApi.postCreateOrder(ingredients, accessToken);
         createOrderResponse.assertThat().statusCode(200);
         ValidatableResponse getOrdersResponse = OrderApi.getOrders(accessToken);
         getOrdersResponse.assertThat().statusCode(200);
-        ValidatableResponse deleteUserResponse = UserApi.deleteUser(accessToken);
-        deleteUserResponse.assertThat().statusCode(202);
+    }
+
+    @Test
+    @DisplayName("Receiving an order by an unauthorized user")
+    public void getOrdersUnauthorizedUserTest() {
+        String expected = "You should be authorised";
+        Ingredients ingredients = new Ingredients(ingredientsList);
+        ValidatableResponse createOrderResponse = OrderApi.postCreateOrder(ingredients, "");
+        createOrderResponse.assertThat().statusCode(200);
+        ValidatableResponse getOrdersResponse = OrderApi.getOrders("");
+        getOrdersResponse.assertThat().statusCode(401).body("message", equalTo(expected));
     }
 }
